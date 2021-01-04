@@ -5,14 +5,23 @@
 {% endblock %}
 
 {% block body %}
-    <h1>All Pages</h1>
-
+    {% if search %}
+        <h1>Posible values for: "{{ q }}"</h1>
+    {% else %}
+        <h1>All Pages</h1>        
+    {% endif %}
     <ul>
+    	<!-- user can click on any entry name to be taken directly to that entry page -->
         {% for entry in entries %}
             <li><a href="{% url 'entry' entry %}">{{ entry }}</a></li>
         {% empty %}
             <p>Nothing to show here!</p>
+            <a href="">Add a New entry</a>
         {% endfor %}
     </ul>
+    {% if search %}
+        <a href="">Add a New entry</a>
+    {% else %}    
+    {% endif %}
 
 {% endblock %}
