@@ -16,11 +16,11 @@
             <li><a href="{% url 'entry' entry %}">{{ entry }}</a></li>
         {% empty %}
             <p>Nothing to show here!</p>
-            <a href="">Add a New entry</a>
+            <a href="{% url 'add' %}">Add a New entry</a>
         {% endfor %}
     </ul>
     {% if search %}
-        <a href="">Add a New entry</a>
+        <a href="{% url 'add' %}">Add a New entry</a>
     {% else %}    
     {% endif %}
 

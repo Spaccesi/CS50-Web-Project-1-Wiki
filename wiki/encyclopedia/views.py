@@ -5,6 +5,11 @@ from django import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+class newForm(forms.Form):
+    title = forms.CharField(label="Title")
+    content = forms.CharField(label="Content", widget=forms.Textarea(attrs={"rows":10, "cols":80}))
+
+
 def index(request, entries = util.list_entries()):
     return render(request, "encyclopedia/index.html", { 
         'entries': entries
@@ -19,7 +24,9 @@ def entry(request, title):
 			"title": title.capitalize(),
 			"content": markdown2.markdown(util.get_entry(title))
 			})
-	else: return render(request, "encyclopedia/error.html")
+	else: return render(request, "encyclopedia/error.html", {
+        'error': "Content doesnt exist"
+        })
 
 def search(request):
     # 1. get the value from the search bar
@@ -38,3 +45,21 @@ def search(request):
         'search': True,
         'q': q
         })
+
+def add(request):
+    if request.method == "POST":
+        form = newForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            content = form.cleaned_data["content"]
+            if util.get_entry(title) is None:
+                util.save_entry(title, content)
+                return HttpResponseRedirect(reverse("entry", kwargs={'title': title}))
+            else: 
+                return render(request, "encyclopedia/error.html", {
+                'error': "Sorry, encyclopedia entry already exists."
+                })
+    else:
+        return render(request,"encyclopedia/add.html", {
+            "form": newForm()
+        })  
