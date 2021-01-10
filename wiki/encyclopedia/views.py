@@ -4,6 +4,7 @@ from . import util
 from django import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+import random
 
 class newForm(forms.Form):
     title = forms.CharField(label="Title")
@@ -21,11 +22,11 @@ def entry(request, title):
 	#  3. If the entry does exist, the user should be presented with a page that displays the content of the entry. The title of the page should include the name of the entry.
 	if util.get_entry(title) is not None:
 		return render(request, "encyclopedia/entry.html", {
-			"title": title.capitalize(),
+			"title": title,
 			"content": markdown2.markdown(util.get_entry(title))
 			})
 	else: return render(request, "encyclopedia/error.html", {
-        'error': "Content doesnt exist"
+        'error': "Sorry, requested page was not found."
         })
 
 def search(request):
@@ -88,6 +89,11 @@ def edit(request, title):
         form.fields["content"].initial = entryPage
         return render(request, "encyclopedia/edit.html", {
             "form": form
-        })        
+        })  
+
+
+def randomEntry(request):
+    entry = random.choice(util.list_entries())
+    return HttpResponseRedirect(reverse("entry", kwargs={'title': entry}))      
 
 
