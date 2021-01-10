@@ -8,10 +8,12 @@ import random
 
 class newForm(forms.Form):
     title = forms.CharField(label="Title")
-    content = forms.CharField(label="Content", widget=forms.Textarea(attrs={"rows":10, "cols":80}))
+    content = forms.CharField(label="Content", widget=forms.Textarea(attrs={"rows":0.1, "cols":80, 'style': 'height: 20em;'}))
 
 
-def index(request, entries = util.list_entries()):
+def index(request, entries = 0):
+    if entries == 0:
+        entries = util.list_entries()
     return render(request, "encyclopedia/index.html", { 
         'entries': entries
         })

@@ -16,7 +16,6 @@
             <li><a href="{% url 'entry' entry %}">{{ entry }}</a></li>
         {% empty %}
             <p>Nothing to show here!</p>
-            <a href="{% url 'add' %}">Add a New entry</a>
         {% endfor %}
     </ul>
     {% if search %}
