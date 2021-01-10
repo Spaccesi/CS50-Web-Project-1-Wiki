@@ -1,7 +1,4 @@
-# CS50’s Web Programming with Python and JavaScript
-Project 1 from Edx | Harvard CS50 Course 
-
-# Wiki
+# Wiki: Project 1 from Edx | Harvard CS50 Course: CS50’s Web Programming with Python and JavaScript
 
 ## Specification
 
